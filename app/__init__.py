@@ -19,8 +19,8 @@ def create_app(config_state):
     db.init_app(app)
     login_manager.init_app(app)
 
-    from .attendanceV1 import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    from .attendanceV1 import apiV1
+    app.register_blueprint(apiV1, url_prefix = '/api/v1')
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint,url_prefix = '/authenticate')
