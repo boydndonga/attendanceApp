@@ -4,7 +4,6 @@
 """
 import os
 
-
 class Config:
     SECRET_KEY = os.urandom(24)
     CSRF_ENABLED = False
