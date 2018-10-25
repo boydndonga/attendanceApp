@@ -1,5 +1,6 @@
 from werkzeug.security import generate_password_hash,check_password_hash
 from datetime import datetime
+from . import ma, db
 
 
 class User(db.Model):
@@ -27,3 +28,11 @@ class User(db.Model):
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
 
+class UserSchema(ma.Schema):
+    class Meta:
+        # Fields to expose
+        fields = ('username', 'email')
+
+
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
