@@ -10,7 +10,7 @@ class UserModelTESTCase(unittest.TestCase):
         self.app_context.push()
         self.client = self.app.test_client
         self.new_role = Role(name='Admin')
-        self.new_user = User(username='boyde', email='boyde@gmaile.com', password='walaisijui', role_id= self.new_role.id)
+        self.new_user = User(username='boyde', email='boyde@gmaile.com', pass_secure='walaisijui', role= self.new_role)
         db.create_all()
 
     def tearDown(self):
@@ -21,7 +21,6 @@ class UserModelTESTCase(unittest.TestCase):
     def test_user_instance_var(self):
         self.assertEqual(self.new_user.username, 'boyde')
         self.assertEqual(self.new_user.email, 'boyde@gmaile.com')
-        self.assertEqual(self.new_user.role_id == self.new_role.id)
 
     def test_no_password_getter(self):
         with self.assertRaises(AttributeError):
@@ -31,3 +30,11 @@ class UserModelTESTCase(unittest.TestCase):
         db.session.add(self.new_user)
         db.session.commit()
         self.assertTrue(len(User.query.all()) > 0)
+
+    def test_user_has_role(self):
+        db.session.add(self.new_role)
+        db.session.commit()
+        db.session.add(self.new_user)
+        db.session.commit()
+        person = User.query.filter_by(username='boyde').first()
+        self.assertEqual(person.role_id, self.new_role.id)
