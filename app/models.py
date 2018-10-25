@@ -12,11 +12,6 @@ class User(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
-    # def __init__(self,username, email, role_id):
-    #     self.username = username
-    #     self.email = email
-    #     self.role_id = role_id
-
     def __repr__(self):
         return f'User {self.username}'
 
