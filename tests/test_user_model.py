@@ -1,6 +1,6 @@
 import unittest
 from app import create_app,db
-from app.models import User
+from app.models import User, Role
 
 
 class UserModelTESTCase(unittest.TestCase):
@@ -9,7 +9,8 @@ class UserModelTESTCase(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client
-        self.new_user = User(username='boyde', email='boyde@gmaile.com', password='walaisijui')
+        self.new_role = Role(name='Admin')
+        self.new_user = User(username='boyde', email='boyde@gmaile.com', password='walaisijui', role_id= self.new_role)
         db.create_all()
 
     def tearDown(self):
