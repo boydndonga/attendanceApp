@@ -6,9 +6,7 @@ from flask_marshmallow import Marshmallow
 
 db = SQLAlchemy()
 ma = Marshmallow()
-login_manager = LoginManager()
-login_manager.session_protection = 'strong'
-login_manager.login_view = 'auth.login'
+
 
 
 def create_app(config_state):
@@ -18,7 +16,6 @@ def create_app(config_state):
 
     db.init_app(app)
     ma.init_app(app)
-    login_manager.init_app(app)
 
     from .attendanceV1 import apiV1
     app.register_blueprint(apiV1, url_prefix = '/api/v1')
