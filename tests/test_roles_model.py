@@ -17,5 +17,10 @@ class UserModelTESTCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def test_save_role(self):
+    def test_role_instance_var(self):
         self.assertEqual(self.new_role.name, 'Admin')
+
+    def test_save_role(self):
+        db.session.add(self.new_role)
+        db.session.commit()
+        self.assertTrue(len(Role.query.all()) > 0)
