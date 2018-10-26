@@ -1,3 +1,4 @@
+import hashlib
 from werkzeug.security import generate_password_hash,check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
@@ -13,6 +14,7 @@ class User(db.Model):
     pass_secure = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    avatar_hash = db.Column(db.String(32))
 
     def __repr__(self):
         return f'User {self.username}'
@@ -43,6 +45,16 @@ class User(db.Model):
         self.confirmed = True
         db.session.add(self)
         return True
+
+    def gravatar_hash(self):
+        self.avatar_hash = hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
+        # return hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
+
+    def gravatar(self, size=100, default='identicon', rating='g'):
+        url = 'https://secure.gravatar.com/avatar'
+        hash = self.avatar_hash or self.gravatar_hash()
+        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
+            url=url, hash=hash, size=size, default=default, rating=rating)
 
 class UserSchema(ma.Schema):
     class Meta:
