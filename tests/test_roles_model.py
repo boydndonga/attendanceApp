@@ -1,6 +1,6 @@
 import unittest
 from app import create_app,db
-from app.models import Role
+from app.models import Role, User
 
 
 class UserModelTESTCase(unittest.TestCase):
@@ -24,3 +24,9 @@ class UserModelTESTCase(unittest.TestCase):
         db.session.add(self.new_role)
         db.session.commit()
         self.assertTrue(len(Role.query.all()) > 0)
+
+    def test_role_has_users(self):
+        new_user = User(username='boyde', email='boyde@gmaile.com', pass_secure='walaisijui', role= self.new_role)
+        db.session.add(new_user)
+        db.session.commit()
+        self.assertTrue(len(self.new_role.users) > 0)
