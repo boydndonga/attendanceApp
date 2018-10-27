@@ -14,7 +14,7 @@ class User(db.Model):
     pass_secure = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-    avatar_hash = db.Column(db.String(32))
+    avatar_hash = db.Column(db.String(255))
 
     def __repr__(self):
         return f'User {self.username}'
