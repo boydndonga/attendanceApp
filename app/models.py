@@ -1,4 +1,5 @@
 import hashlib
+import re
 from werkzeug.security import generate_password_hash,check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
@@ -9,15 +10,21 @@ from flask import current_app
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer,primary_key = True)
-    username = db.Column(db.String(30))
-    email = db.Column(db.String(255),unique = True,index = True)
-    pass_secure = db.Column(db.String(255))
+    username = db.Column(db.String(30), nullable=False)
+    email = db.Column(db.String(255),unique = True,index = True, nullable=False)
+    pass_secure = db.Column(db.String(255), nullable=False)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     avatar_hash = db.Column(db.String(255))
 
     def __repr__(self):
         return f'User {self.username}'
+
+    def validate_email(self):
+        if len(self.email) != 0:
+            if re.search(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]*\.*[com|org|edu]{3}$)", self.email):
+                return True
+            return False
 
     @property
     def password(self):

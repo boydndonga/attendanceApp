@@ -26,6 +26,16 @@ class UserModelTESTCase(unittest.TestCase):
         with self.assertRaises(AttributeError):
             self.new_user.password()
 
+    def test_email_validator(self):
+        # testvalid email
+        email = self.new_user.validate_email()
+        self.assertTrue(email)
+
+        #test invalid email
+        u2 = User(username='boyde', email='boyde@gmaile.cm', pass_secure='walaisijui', role= self.new_role)
+        email2 = u2.validate_email()
+        self.assertFalse(email2)
+
     def test_save_user(self):
         db.session.add(self.new_user)
         db.session.commit()
