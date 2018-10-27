@@ -61,7 +61,7 @@ class User(db.Model):
 class UserSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ('username', 'email')
+        fields = ('username', 'email', 'avatar_hash')
 
 
 user_schema = UserSchema()
