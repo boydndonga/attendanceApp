@@ -59,8 +59,14 @@ class AuthViewTESTCase(unittest.TestCase):
         self.assertEqual(result['message'], 'successfully created user')
         self.assertEqual(res.status_code, 201)
 
-        # test invalid email
+        # test email validation
         res = self.get_client_request(email='app@test.cm')
         result = json.loads(res.data.decode())
         self.assertEqual(result['message'], 'invalid email')
+        self.assertEqual(res.status_code, 403)
+
+        #test password validation
+        res = self.get_client_request(password='pswdy')
+        result = json.loads(res.data.decode())
+        self.assertEqual(result['message'], 'password at least 8 characters of numbers/letters/special char')
         self.assertEqual(res.status_code, 403)
