@@ -16,7 +16,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         return make_response(jsonify({'message': 'successfully created user'}), 201)
-    return make_response(jsonify({'message':'make post request'}))
+    return make_response(jsonify({'message':'invalid request'}), 404)
 
 
 @auth.route('/login', methods=['GET', 'POST'])

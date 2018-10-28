@@ -42,8 +42,19 @@ class AuthViewTESTCase(unittest.TestCase):
         )
 
     def test_auth_registration(self):
+        # test registration has no get request
+        user_data = {'username':'testsy', 'email': 'app@test.com', 'password': 'appytesty'}
+        res = self.client().get(
+            '/authenticate/register',
+            headers=self.get_api_headers(),
+            data=json.dumps(user_data)
+        )
+        result = json.loads(res.data.decode())
+        self.assertEqual(result['message'], 'invalid request')
+        self.assertEqual(res.status_code, 404)
+
         # test successful registration
         res = self.get_client_request()
         result = json.loads(res.data.decode())
-        self.assertEqual(result['message'], 'successfully  created user')
+        self.assertEqual(result['message'], 'successfully created user')
         self.assertEqual(res.status_code, 201)
