@@ -42,6 +42,12 @@ class User(db.Model):
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
 
+    def verify_email(self,email):
+        mail = User.query.filter_by(email=email).first()
+        if mail:
+            return True
+        return False
+
     def generate_confirmation_token(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.id}).decode('utf-8')

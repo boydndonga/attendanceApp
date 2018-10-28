@@ -36,10 +36,21 @@ class UserModelTESTCase(unittest.TestCase):
         email2 = u2.validate_email()
         self.assertFalse(email2)
 
+    def test_password_validator(self):
         #test invalid password
-        u2 = User(username='boyde', email='boyde@gmaile.cm', pass_secure='pswd', role=self.new_role)
-        pass2 = u2.validate_password()
+        user = User(username='boyde', email='boyde@gmaile.cm', pass_secure='pswd', role=self.new_role)
+        pass2 = user.validate_password()
         self.assertFalse(pass2)
+
+        # test empty password
+        user = User(username='boyde', email='boyde@gmaile.cm', pass_secure='', role=self.new_role)
+        pass2 = user.validate_password()
+        self.assertFalse(pass2)
+
+        #test valid password
+        user = User(username='boyde', email='boyde@gmaile.cm', pass_secure='cdb3t3nkj56', role=self.new_role)
+        pass2 = user.validate_password()
+        self.assertTrue(pass2)
 
     def test_save_user(self):
         db.session.add(self.new_user)

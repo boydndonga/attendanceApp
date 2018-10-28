@@ -70,3 +70,13 @@ class AuthViewTESTCase(unittest.TestCase):
         result = json.loads(res.data.decode())
         self.assertEqual(result['message'], 'password at least 8 characters of numbers/letters/special char')
         self.assertEqual(res.status_code, 403)
+
+        # test duplicate registration
+        res1 = self.get_client_request()
+        res2 = self.get_client_request(password='sdcscdsc')
+        result1 = json.loads(res1.data.decode())
+        result2 = json.loads(res2.data.decode())
+        self.assertEqual(result1['message'], 'successfully created user')
+        self.assertEqual(res1.status_code, 201)
+        self.assertEqual(result2['message'], 'user in existence')
+        self.assertEqual(res2.status_code, 406)
