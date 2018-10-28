@@ -11,9 +11,9 @@ def register():
         username = data.get('username')
         email = data.get('email')
         pass_secure = data.get('password')
-        user = User(username=username, email=email, pass_secure=pass_secure)
+        user = User(username=username, email=email, password=pass_secure)
         if user.validate_email() is True:
-            if user.validate_password() is True:
+            if user.validate_password(pass_secure) is True:
                 if user.verify_email() is False:
                     user.gravatar()
                     db.session.add(user)
@@ -33,7 +33,7 @@ def login():
         username = data.get('username')
         email = data.get('email')
         pass_secure = data.get('password')
-        user = User(username=username, email=email, pass_secure=pass_secure)
+        user = User(username=username, email=email, password=pass_secure)
         try:
             verified_user = user.verify_email()
             if verified_user:

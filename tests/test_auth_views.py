@@ -97,7 +97,7 @@ class AuthViewTESTCase(unittest.TestCase):
         self.assertEqual(result['message'], 'user does not exist, register first')
         self.assertEqual(res.status_code, 403)
 
-        #test login witth incorrect password
+        #test login with incorrect password
         res = self.get_client_request(password='csdcwwce',path='/authenticate/login')
         result = json.loads(res.data.decode())
         self.assertEqual(result['message'], 'password is incorrect')

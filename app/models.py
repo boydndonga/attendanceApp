@@ -26,8 +26,8 @@ class User(db.Model):
                 return True
             return False
 
-    def validate_password(self):
-        if re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', self.pass_secure):
+    def validate_password(self,password):
+        if re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password):
             return True
         return False
 
