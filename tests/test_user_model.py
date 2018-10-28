@@ -36,6 +36,11 @@ class UserModelTESTCase(unittest.TestCase):
         email2 = u2.validate_email()
         self.assertFalse(email2)
 
+        #test invalid password
+        u2 = User(username='boyde', email='boyde@gmaile.cm', pass_secure='pswd', role=self.new_role)
+        pass2 = u2.validate_password()
+        self.assertFalse(pass2)
+
     def test_save_user(self):
         db.session.add(self.new_user)
         db.session.commit()

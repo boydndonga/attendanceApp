@@ -58,3 +58,9 @@ class AuthViewTESTCase(unittest.TestCase):
         result = json.loads(res.data.decode())
         self.assertEqual(result['message'], 'successfully created user')
         self.assertEqual(res.status_code, 201)
+
+        # test invalid email
+        res = self.get_client_request(email='app@test.cm')
+        result = json.loads(res.data.decode())
+        self.assertEqual(result['message'], 'invalid email')
+        self.assertEqual(res.status_code, 403)

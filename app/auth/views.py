@@ -12,10 +12,12 @@ def register():
         email = data.get('email')
         pass_secure = data.get('password')
         user = User(username=username, email=email, pass_secure=pass_secure)
-        user.gravatar()
-        db.session.add(user)
-        db.session.commit()
-        return make_response(jsonify({'message': 'successfully created user'}), 201)
+        if user.validate_email() is True:
+            user.gravatar()
+            db.session.add(user)
+            db.session.commit()
+            return make_response(jsonify({'message': 'successfully created user'}), 201)
+        return make_response(jsonify({'message': 'invalid email'}), 403)
     return make_response(jsonify({'message':'invalid request'}), 404)
 
 

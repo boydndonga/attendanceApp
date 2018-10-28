@@ -26,6 +26,11 @@ class User(db.Model):
                 return True
             return False
 
+    def validate_password(self):
+        if re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', self.pass_secure):
+            return True
+        return False
+
     @property
     def password(self):
         raise AttributeError('You cannot read the password attribute')
