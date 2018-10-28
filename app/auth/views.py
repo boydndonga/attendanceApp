@@ -29,5 +29,20 @@ def register():
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        return 'posted'
-    return make_response(jsonify({'message':'make post request'}))
+        data = request.get_json()
+        username = data.get('username')
+        email = data.get('email')
+        pass_secure = data.get('password')
+        user = User(username=username, email=email, pass_secure=pass_secure)
+        try:
+            verified_user = user.verify_email()
+            if verified_user:
+                verified_pass = user.verify_password(user.pass_secure)
+                if verified_pass:
+                    return 'logged'
+                raise Exception('password is incorrect')
+            raise Exception('user does not exist, register first')
+        except Exception as e:
+            return make_response(jsonify({'message': str(e)}), 403)
+    return make_response(jsonify({'message':'invalid request'}),404)
+

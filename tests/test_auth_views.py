@@ -78,3 +78,27 @@ class AuthViewTESTCase(unittest.TestCase):
         result2 = json.loads(res2.data.decode())
         self.assertEqual(result2['message'], 'user in existence')
         self.assertEqual(res2.status_code, 406)
+
+    def test_auth_login(self):
+        # test login has no get request
+        user_data = {'username': 'testsy', 'email': 'app@test.com', 'password': 'appytesty'}
+        res = self.client().get(
+            '/authenticate/login',
+            headers=self.get_api_headers(),
+            data=json.dumps(user_data)
+        )
+        result = json.loads(res.data.decode())
+        self.assertEqual(result['message'], 'invalid request')
+        self.assertEqual(res.status_code, 404)
+
+        #test login with unregistered email
+        res = self.get_client_request(path='/authenticate/login')
+        result = json.loads(res.data.decode())
+        self.assertEqual(result['message'], 'user does not exist, register first')
+        self.assertEqual(res.status_code, 403)
+
+        #test login witth incorrect password
+        res = self.get_client_request(password='csdcwwce',path='/authenticate/login')
+        result = json.loads(res.data.decode())
+        self.assertEqual(result['message'], 'password is incorrect')
+        self.assertEqual(res.status_code, 403)

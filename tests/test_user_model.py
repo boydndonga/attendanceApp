@@ -10,7 +10,7 @@ class UserModelTESTCase(unittest.TestCase):
         self.app_context.push()
         self.client = self.app.test_client
         self.new_role = Role(name='Admin')
-        self.new_user = User(username='boyde', email='boyde@gmaile.com', pass_secure='walaisijui', role= self.new_role)
+        self.new_user = User(username='boyde', email='boyde@gmaile.com', password='walaisijui', role= self.new_role)
         db.create_all()
 
     def tearDown(self):
@@ -25,6 +25,10 @@ class UserModelTESTCase(unittest.TestCase):
     def test_no_password_getter(self):
         with self.assertRaises(AttributeError):
             self.new_user.password()
+
+    def test_password_verification(self):
+        user = self.new_user.verify_password('walaisijui')
+        self.assertTrue(user)
 
     def test_email_validator(self):
         # testvalid email
