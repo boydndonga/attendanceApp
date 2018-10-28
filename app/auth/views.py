@@ -34,15 +34,16 @@ def login():
         email = data.get('email')
         pass_secure = data.get('password')
         user = User(username=username, email=email, password=pass_secure)
+        query_user = User.query.filter_by(email=email).first()
         try:
             verified_user = user.verify_email()
             if verified_user:
-                verified_pass = user.verify_password(user.pass_secure)
+                verified_pass = query_user.verify_password(pass_secure)
                 if verified_pass:
                     return 'logged'
                 raise Exception('password is incorrect')
             raise Exception('user does not exist, register first')
         except Exception as e:
             return make_response(jsonify({'message': str(e)}), 403)
-    return make_response(jsonify({'message':'invalid request'}),404)
+    return make_response(jsonify({'message': 'invalid request'}), 404)
 
