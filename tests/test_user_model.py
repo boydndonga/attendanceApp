@@ -52,10 +52,17 @@ class UserModelTESTCase(unittest.TestCase):
         pass2 = user.validate_password()
         self.assertTrue(pass2)
 
+
     def test_save_user(self):
         db.session.add(self.new_user)
         db.session.commit()
         self.assertTrue(len(User.query.all()) > 0)
+
+    def test_email_verification(self):
+        db.session.add(self.new_user)
+        db.session.commit()
+        verified_email = self.new_user.verify_email()
+        self.assertTrue(verified_email)
 
     def test_user_has_role(self):
         db.session.add(self.new_role)

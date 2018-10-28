@@ -14,10 +14,12 @@ def register():
         user = User(username=username, email=email, pass_secure=pass_secure)
         if user.validate_email() is True:
             if user.validate_password() is True:
-                user.gravatar()
-                db.session.add(user)
-                db.session.commit()
-                return make_response(jsonify({'message': 'successfully created user'}), 201)
+                if user.verify_email() is False:
+                    user.gravatar()
+                    db.session.add(user)
+                    db.session.commit()
+                    return make_response(jsonify({'message': 'successfully created user'}), 201)
+                return make_response(jsonify({'message': 'user in existence'}), 406)
             return make_response(jsonify({'message': 'password at least 8 characters of numbers/letters/special char'})
                                  , 403)
         return make_response(jsonify({'message': 'invalid email'}), 403)

@@ -42,8 +42,8 @@ class User(db.Model):
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
 
-    def verify_email(self,email):
-        mail = User.query.filter_by(email=email).first()
+    def verify_email(self):
+        mail = User.query.filter_by(email=self.email).first()
         if mail:
             return True
         return False
