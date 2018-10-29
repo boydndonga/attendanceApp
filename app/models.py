@@ -42,6 +42,11 @@ class User(db.Model):
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
 
+    def test_password_salts_are_random(self):
+        u = User(password='cat')
+        u2 = User(password='cat')
+        self.assertTrue(u.pass_secure != u2.pass_secure)
+
     def verify_email(self):
         mail = User.query.filter_by(email=self.email).first()
         if mail:

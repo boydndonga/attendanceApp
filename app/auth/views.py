@@ -40,7 +40,9 @@ def login():
             if verified_user:
                 verified_pass = query_user.verify_password(pass_secure)
                 if verified_pass:
-                    return 'logged'
+                    access_token = query_user.generate_confirmation_token()
+                    if access_token:
+                        return make_response(jsonify({'message': 'login successful', 'access_token':access_token}), 200)
                 raise Exception('password is incorrect')
             raise Exception('user does not exist, register first')
         except Exception as e:

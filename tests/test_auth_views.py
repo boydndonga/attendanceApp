@@ -103,3 +103,11 @@ class AuthViewTESTCase(unittest.TestCase):
         result = json.loads(res.data.decode())
         self.assertEqual(result['message'], 'password is incorrect')
         self.assertEqual(res.status_code, 403)
+
+        # test successful login and token generated
+        self.get_client_request()
+        res = self.get_client_request(path='/api/v1/login')
+        result = json.loads(res.data.decode())
+        # self.assertEqual(result['message'], "login successful")
+        self.assertTrue(result['access_token'])
+        self.assertEqual(res.status_code, 200)
