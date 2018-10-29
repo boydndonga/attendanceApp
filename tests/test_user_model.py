@@ -57,6 +57,12 @@ class UserModelTESTCase(unittest.TestCase):
         pass2 = user.validate_password(user.pass_secure)
         self.assertTrue(pass2)
 
+    def test_valid_confirmation_token(self):
+        u = User(username='boyde', email='boyde@gmaile.cm', pass_secure='cdb3t3nkj56', role=self.new_role)
+        db.session.add(u)
+        db.session.commit()
+        token = u.generate_confirmation_token()
+        self.assertTrue(u.confirm(token))
 
     def test_save_user(self):
         db.session.add(self.new_user)

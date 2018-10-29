@@ -16,6 +16,7 @@ class User(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     avatar_hash = db.Column(db.String(255))
+    confirmed = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f'User {self.username}'
