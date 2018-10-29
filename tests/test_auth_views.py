@@ -98,7 +98,8 @@ class AuthViewTESTCase(unittest.TestCase):
         self.assertEqual(res.status_code, 403)
 
         #test login with incorrect password
-        res = self.get_client_request(password='csdcwwce',path='/authenticate/login')
+        self.get_client_request()
+        res = self.get_client_request(password='csdcwwce', path='/authenticate/login')
         result = json.loads(res.data.decode())
         self.assertEqual(result['message'], 'password is incorrect')
         self.assertEqual(res.status_code, 403)
