@@ -2,7 +2,7 @@ import unittest
 import json
 from base64 import b64encode
 from app import create_app, db
-from app.models import User
+from app.models import User,Role
 
 
 
@@ -12,6 +12,7 @@ class MainViewTESTCase(unittest.TestCase):
         self.app = create_app('testing')
         self.app_context = self.app.app_context()
         self.app_context.push()
+        self.new_role = Role(name='Admin')
         self.client = self.app.test_client
         db.create_all()
 
@@ -58,6 +59,7 @@ class MainViewTESTCase(unittest.TestCase):
         result = json.loads(res.data.decode())
         self.assertEqual(result['message'], 'Authorization is empty')
         self.assertEqual(res.status_code, 401)
+
 
     def test_get_users_api(self):
         pass

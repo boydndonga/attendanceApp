@@ -9,7 +9,7 @@ def get_user():
     try:
         auth_header = request.headers.get('Authorization')
         if auth_header:
-            if auth_header.split(" ")[1]:
+            if auth_header.split(" ")[1] != '':
                 pass
             raise Exception('Authorization is empty')
         raise Exception('no Authorization available')
