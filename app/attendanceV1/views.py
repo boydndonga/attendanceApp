@@ -1,7 +1,7 @@
 from . import apiV1
 from flask import jsonify
 from app.models import users_schema, User
-
+from flask_login import login_required
 
 # endpoint to show all users
 @apiV1.route("/users", methods=["GET"])
