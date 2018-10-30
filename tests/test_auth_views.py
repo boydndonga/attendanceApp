@@ -1,6 +1,5 @@
 import unittest
 import json
-from base64 import b64encode
 from app import create_app, db
 from app.models import Role, User
 
@@ -34,7 +33,7 @@ class AuthViewTESTCase(unittest.TestCase):
         }
 
     def get_client_request(self, username='testsy', email='app@test.com', password='appytesty', path='/authenticate/register'):
-        user_data = {'username':username, 'email': email, 'password': password}
+        user_data = {'username':username, 'email': email, 'password': password }
         return self.client().post(
             path,
             headers=self.get_api_headers(),
@@ -111,5 +110,3 @@ class AuthViewTESTCase(unittest.TestCase):
         self.assertEqual(result['message'], "login successful")
         self.assertTrue(result['access_token'])
         self.assertEqual(res.status_code, 200)
-        # json_response = json.loads(res.get_data(as_text=True))
-        # self.assertIsNotNone(json_response.get('token'))
