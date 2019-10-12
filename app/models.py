@@ -5,6 +5,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 from . import ma, db
 from flask import current_app
+from flask_jwt_extended import create_access_token
 
 
 class User(db.Model):

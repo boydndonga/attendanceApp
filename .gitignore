@@ -4,4 +4,4 @@ start.sh
 
 *__pycache__/
 __pycache*
-.idea
+.idea.vscode/

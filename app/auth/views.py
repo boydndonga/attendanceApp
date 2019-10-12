@@ -1,6 +1,6 @@
 from . import auth
 from .. import db
-from ..models import User,user_schema
+from ..models import User, user_schema
 from flask import request, jsonify, make_response
 
 
@@ -37,6 +37,7 @@ def login():
         query_user = User.query.filter_by(email=email).first()
         try:
             verified_user = user.verify_email()
+            print(verified_user)
             if verified_user:
                 verified_pass = query_user.verify_password(pass_secure)
                 if verified_pass:
@@ -48,4 +49,3 @@ def login():
         except Exception as e:
             return make_response(jsonify({'message': str(e)}), 403)
     return make_response(jsonify({'message': 'invalid request'}), 404)
-

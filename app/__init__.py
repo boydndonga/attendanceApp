@@ -9,7 +9,6 @@ db = SQLAlchemy()
 ma = Marshmallow()
 
 
-
 def create_app(config_state):
 
     app = Flask(__name__)
